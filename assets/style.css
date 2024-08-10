@@ -1,0 +1,34 @@
+/* assets/style.css */
+.info-container {
+    display: inline-block;
+    position: relative;
+    text-align: center;
+}
+
+.info-icon {
+    font-size: 18px;  /* Adjust size if using Unicode */
+    cursor: pointer;
+    user-select: none;
+}
+
+.info-text {
+    visibility: hidden;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 10px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%; /* Position above the icon */
+    left: 50%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    width: 120px; /* Adjust width as needed */
+}
+
+.info-container:hover .info-text {
+    visibility: visible;
+    opacity: 1;
+}

@@ -16,7 +16,9 @@ df = pd.DataFrame({
 })
 
 # Create a Dash application
-app = dash.Dash(__name__)
+app = dash.Dash(__name__, external_stylesheets=[
+    'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css'
+])
 
 
 # Define the layout of the app using app.layout
@@ -37,13 +39,20 @@ app.layout = html.Div(children=[
     ),
 
     html.Div([
-        dcc.Graph(id='fruit-sales-bar-chart'),
+        dcc.Graph(id='fruit-sales-bar-chart', style={'flex': '0 0 90%'}), # # Graph takes 80% space
 
         # info button next to graph that will show text on hover
-        html.Div(children="ℹ️")
-
-
-    ]),
+        html.Div(children=[
+                    # html.I(className="fas fa-info-circle info-icon"),  # FontAwesome info circle icon
+                    html.Span("ℹ️", className="info-icon"),
+                    html.Span("This bar chart shows the sales amounts of different fruits in the selected city.", className="info-text")
+                ],
+                className="info-container",
+                style={'flex': '0 0 10%', 'text-align': 'center', 'position': 'relative'} # Info takes 20% space
+        )
+    ],
+    style={'display': 'flex', 'align-items': 'center'}, # Flexbox to align items horizontally,
+    className="graph-with-info"),
 
     dcc.Graph(id='fruit-sales-pie-chart')
 ])
