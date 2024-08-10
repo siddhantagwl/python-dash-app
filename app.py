@@ -21,6 +21,36 @@ app = dash.Dash(__name__, external_stylesheets=[
 ])
 
 
+# Function to create a graph container
+def create_graph_container(graph_id, title, info_text):
+    
+    return html.Div([
+        html.H3(title),  # Title on top
+        html.Div([
+            dcc.Graph(id=graph_id, style={'flex': '0 0 80%'}),  # Graph
+
+            # Info button with hover text
+            html.Div(
+                children=[
+                    html.Span("ℹ️", className="info-icon"),  # Using Unicode for info icon
+                    html.Span(
+                        info_text,
+                        className="info-text"
+                    )
+                ],
+                className="info-container",
+                style={'flex': '0 0 20%', 'text-align': 'center', 'position': 'relative'}
+            )
+        ], style={'display': 'flex', 'align-items': 'center'}),  # Flexbox to align items horizontally
+    ], className='graph-container')
+
+
+#---------------------------------------------------------------------------------------------------
+
+
+
+
+
 # Define the layout of the app using app.layout
 app.layout = html.Div(children=[
     html.H1(children='Fruit Sales Dashboard'),
@@ -29,32 +59,25 @@ app.layout = html.Div(children=[
         A simple dashboard to display fruit sales data.
     '''),
 
-    dcc.Dropdown(
-        id='city-dropdown',
-        options=[
-            {'label': 'San Francisco', 'value': 'SF'},
-            {'label': 'New York City', 'value': 'NYC'}
-        ],
-        value='SF'  # Default value
-    ),
-
     html.Div([
-        dcc.Graph(id='fruit-sales-bar-chart', style={'flex': '0 0 90%'}), # # Graph takes 80% space
+        dcc.Dropdown(
+            id='city-dropdown',
+            options=[
+                {'label': 'San Francisco', 'value': 'SF'},
+                {'label': 'New York City', 'value': 'NYC'}
+            ],
+            value='SF'  # Default value
+        ),
+    ]),
+    
+    create_graph_container('fruit-sales-bar-chart',
+                           "Graph 1: Fruit Sales in City", 
+                           "This bar chart shows the sales amounts of different fruits in the selected city (Graph 1)."),
 
-        # info button next to graph that will show text on hover
-        html.Div(children=[
-                    # html.I(className="fas fa-info-circle info-icon"),  # FontAwesome info circle icon
-                    html.Span("ℹ️", className="info-icon"),
-                    html.Span("This bar chart shows the sales amounts of different fruits in the selected city.", className="info-text")
-                ],
-                className="info-container",
-                style={'flex': '0 0 10%', 'text-align': 'center', 'position': 'relative'} # Info takes 20% space
-        )
-    ],
-    style={'display': 'flex', 'align-items': 'center'}, # Flexbox to align items horizontally,
-    className="graph-with-info"),
+    create_graph_container('fruit-sales-pie-chart',
+                           "Graph 2: Fruit Sales Pie in City", 
+                           "This bar chart shows the sales amounts of different fruits in the selected city (Graph 1)."),
 
-    dcc.Graph(id='fruit-sales-pie-chart')
 ])
 
 
